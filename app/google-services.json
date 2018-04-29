@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1051712026088",
+    "firebase_url": "https://papblprojectakhir.firebaseio.com",
+    "project_id": "papblprojectakhir",
+    "storage_bucket": "papblprojectakhir.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1051712026088:android:27f0157cdccd0be7",
+        "android_client_info": {
+          "package_name": "com.arifinfrds.papblprojectakhir"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1051712026088-8oac66qn7ddqaf1o5t80q09126eouche.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.arifinfrds.papblprojectakhir",
+            "certificate_hash": "27e91ca8fdbce07095a772e81bd8cd91fceade04"
+          }
+        },
+        {
+          "client_id": "1051712026088-7b4ohh837p2qg9fj9c623qlvrj34na9r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDHCaIk3x1RpdhLg-yxRFy8hXwVo_DMoc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1051712026088-7b4ohh837p2qg9fj9c623qlvrj34na9r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
