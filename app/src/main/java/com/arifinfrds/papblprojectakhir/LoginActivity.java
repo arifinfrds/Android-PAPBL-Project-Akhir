@@ -12,16 +12,10 @@ import android.os.Bundle;
 import android.widget.Toast;
 import android.content.Intent;
 
-//import com.google.firebase.auth.AuthResult;
-//import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-
-
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -30,9 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText inputEmailUser, inputPassword;
     private ProgressDialog showLoginProgress;
 
-    private DatabaseReference dbUserLogin;
-
-//    private FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
 
     private String emailAuth, pswdAuth;
 
@@ -41,9 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        dbUserLogin = FirebaseDatabase.getInstance().getReference("user");
-
-//        mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         txtAppTitle = findViewById(R.id.txtAppTitle);
         txtAppWelcome = findViewById(R.id.txtViewDescription);
@@ -69,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
         txtIsAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,39 +71,27 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-//        if(mAuth.getCurrentUser()!= null){
-//            //intent to next page
-//            finish();
-//        }
+        if(mAuth.getCurrentUser()!= null){
+            //intent to next page
+            finish();
+        }
     }
 
     private void userLogin(final String textEmail, String textPassword){
         showLoginProgress.setMessage("Sedang masuk, harap tunggu...");
         showLoginProgress.show();
 
-        Query loginQuery = dbUserLogin.orderByChild("email").equalTo(textEmail);
-        loginQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+        mAuth.signInWithEmailAndPassword(textEmail, textPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    for (DataSnapshot userLogin : dataSnapshot.getChildren()){
-                        ModelUser mUserLogin = userLogin.getValue(ModelUser.class);
-                        if(mUserLogin.getEmailUser().equals(textEmail)){
-                            showLoginProgress.dismiss();
-                            //intent to next activity
-                            Toast.makeText(LoginActivity.this, "Done! Welcome User", Toast.LENGTH_LONG).show();
-                        }
-                        else {
-                            showLoginProgress.dismiss();
-                            Toast.makeText(LoginActivity.this, "Whoops!", Toast.LENGTH_LONG).show();
-                        }
-                    }
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                showLoginProgress.dismiss();
+                if (task.isSuccessful()){
+                    finish();
+                    //intent to next activity
                 }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
+                else{
+                    Toast.makeText(LoginActivity.this, "Mohon maaf, login gagal. Silahkan coba lagi", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
