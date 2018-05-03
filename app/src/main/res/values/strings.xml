@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">PAPBL Project Akhir</string>
     <string name="app_description">Cari Toko Jadi Lebih Mudah!</string>
+    <string name="app_description_admin">Page khusus Administrator</string>
     <string name="isAdmin">Login here as administrator!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_maps">Map</string>
