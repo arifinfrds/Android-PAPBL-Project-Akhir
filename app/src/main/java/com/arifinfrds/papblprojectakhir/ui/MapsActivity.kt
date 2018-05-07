@@ -5,14 +5,11 @@ import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.SearchView
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.arifinfrds.papblprojectakhir.R
 import com.arifinfrds.papblprojectakhir.extension.toast
 import com.arifinfrds.papblprojectakhir.model.Toko
-import com.arifinfrds.papblprojectakhir.model.User
-import com.arifinfrds.papblprojectakhir.model.UserType
 import com.arifinfrds.papblprojectakhir.util.Constant
 
 import com.google.android.gms.maps.CameraUpdateFactory
