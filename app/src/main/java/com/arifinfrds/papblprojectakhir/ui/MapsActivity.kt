@@ -1,9 +1,11 @@
 package com.arifinfrds.papblprojectakhir.ui
 
+import android.app.ProgressDialog
 import android.app.SearchManager
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
@@ -18,6 +20,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.util.*
 
@@ -25,10 +28,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
 
+    private var mAuth: FirebaseAuth? = null
     private var mFirebaseDatabase: FirebaseDatabase? = null
     private var mDatabaseReference: DatabaseReference? = null
 
     private var items: ArrayList<Toko>? = null
+
+    private var mProgressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,9 +50,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun fetchTokoList() {
+        showProgressDialog()
         mDatabaseReference?.child(Constant.CHILD.CHILD_TOKO)?.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError?) {
                 toast("Error: ${p0!!.message}")
+                hideProgressDialog()
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
@@ -59,6 +67,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     items!!.add(toko!!)
                 }
                 placeMarkers()
+                hideProgressDialog()
             }
         })
     }
@@ -128,6 +137,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun setupFirebase() {
+        mAuth = FirebaseAuth.getInstance()
         mFirebaseDatabase = FirebaseDatabase.getInstance()
         mDatabaseReference = mFirebaseDatabase?.reference
     }
@@ -191,8 +201,47 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_search -> true
+            R.id.action_search -> {
+                return true
+            }
+            R.id.action_logout -> {
+                logout()
+                return true
+            }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun logout() {
+        mAuth?.signOut()
+        finish()
+        toast("Logout")
+    }
+
+    private var exit: Boolean? = false
+
+    override fun onBackPressed() {
+        if (exit!!) {
+            finish() // finish activity
+        } else {
+            toast("Press Back again to Exit")
+            exit = true
+            Handler().postDelayed(Runnable { exit = false }, 3 * 1000)
+        }
+    }
+
+    fun showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = ProgressDialog(this)
+            mProgressDialog?.setMessage(getString(R.string.title_loading))
+            mProgressDialog?.setIndeterminate(true)
+        }
+        mProgressDialog?.show()
+    }
+
+    fun hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog!!.isShowing()) {
+            mProgressDialog?.dismiss()
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.arifinfrds.papblprojectakhir;
+package com.arifinfrds.papblprojectakhir.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.arifinfrds.papblprojectakhir.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,7 +24,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.reset_password);
+        setContentView(R.layout.activity_reset_password);
 
         edtEmail = (EditText) findViewById(R.id.edt_reset_email);
         btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
