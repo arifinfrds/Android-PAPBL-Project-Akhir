@@ -16,4 +16,10 @@ public interface Constant {
 
     }
 
+    interface TAG {
+
+        String TAG_REGISTER = "TAG_REGISTER";
+
+    }
+
 }

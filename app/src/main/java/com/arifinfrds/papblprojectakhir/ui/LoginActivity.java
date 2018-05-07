@@ -1,4 +1,4 @@
-package com.arifinfrds.papblprojectakhir;
+package com.arifinfrds.papblprojectakhir.ui;
 
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 import android.content.Intent;
 
+import com.arifinfrds.papblprojectakhir.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -27,6 +28,11 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     private String emailAuth, pswdAuth;
+
+    private Button mRegisterButton;
+
+    private Button mResetPasswordButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +56,9 @@ public class LoginActivity extends AppCompatActivity {
                 emailAuth = inputEmailUser.getText().toString();
                 pswdAuth = inputPassword.getText().toString();
 
-                if(TextUtils.isEmpty(emailAuth)){
+                if (TextUtils.isEmpty(emailAuth)) {
                     Toast.makeText(LoginActivity.this, "Email atau password kosong. Harus diisi", Toast.LENGTH_LONG).show();
-                }
-                else{
+                } else {
                     userLogin(emailAuth, pswdAuth);
                 }
             }
@@ -66,18 +71,34 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        mRegisterButton = findViewById(R.id.registerButton);
+        mRegisterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navigateToRegisterActivity();
+            }
+        });
+
+        mResetPasswordButton = findViewById(R.id.resetPasswordButton);
+        mResetPasswordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navigateToResetPasswordActivity();
+            }
+        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if(mAuth.getCurrentUser()!= null){
-            //intent to next page
-            finish();
+        if (mAuth.getCurrentUser() != null) {
+            // intent to next page
+            navigateToMapsActivity();
         }
     }
 
-    private void userLogin(final String textEmail, String textPassword){
+    private void userLogin(final String textEmail, String textPassword) {
         showLoginProgress.setMessage("Sedang masuk, harap tunggu...");
         showLoginProgress.show();
 
@@ -85,15 +106,30 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 showLoginProgress.dismiss();
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
                     finish();
                     //intent to next activity
-                }
-                else{
+                    navigateToMapsActivity();
+                } else {
                     Toast.makeText(LoginActivity.this, "Mohon maaf, login gagal. Silahkan coba lagi", Toast.LENGTH_LONG).show();
                 }
             }
         });
 
+    }
+
+    private void navigateToMapsActivity() {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
+
+    private void navigateToRegisterActivity() {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
+    private void navigateToResetPasswordActivity() {
+        Intent intent = new Intent(this, ResetPasswordActivity.class);
+        startActivity(intent);
     }
 }
