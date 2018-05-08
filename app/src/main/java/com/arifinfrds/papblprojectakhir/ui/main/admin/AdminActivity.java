@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.arifinfrds.papblprojectakhir.R;
@@ -113,15 +114,13 @@ public class AdminActivity extends AppCompatActivity implements AdminListener {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_admin, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_search:
-                break;
             case R.id.action_logout:
                 logout();
                 break;
