@@ -1,6 +1,8 @@
 package com.arifinfrds.papblprojectakhir.ui.main;
 
 import android.app.ProgressDialog;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +23,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -75,7 +81,7 @@ public class TokoEditActivity extends AppCompatActivity {
         btn_HapusToko.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                deleteToko();
             }
         });
 
@@ -94,11 +100,10 @@ public class TokoEditActivity extends AppCompatActivity {
     }
 
     private void fetchToko(String id) {
-        mDatabaseReference.child(CHILD_TOKO).child(id).addValueEventListener(new ValueEventListener() {
+        mDatabaseReference.child(CHILD_TOKO).child(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Toko toko = dataSnapshot.getValue(Toko.class);
-                Toast.makeText(TokoEditActivity.this, "nama toko: " + toko.getNama(), Toast.LENGTH_SHORT).show();
                 hideProgressDialog();
                 updateUI(toko);
                 mCurrentToko = toko;
@@ -123,8 +128,29 @@ public class TokoEditActivity extends AppCompatActivity {
             return;
         }
 
-        Toko toko = new Toko(mCurrentToko.getId(), namaToko, keterangan, alamat, 9.9,
-                9.9, nomorTelepon, mCurrentToko.getPhotoUrl());
+        double latitude = 0;
+        double longitude = 0;
+
+        Geocoder gcd = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = gcd.getFromLocationName(alamat, 100);
+            if (addresses.size() > 0) {
+                Address address = addresses.get(0);
+                latitude = address.getLatitude();
+                longitude = address.getLongitude();
+            } else {
+                // do your stuff
+                Toast.makeText(this, "Alamat tidak ditemukan.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        // Toast.makeText(this, "Latitude: " + latitude + ". Longitude: " + longitude, Toast.LENGTH_SHORT).show();
+        Toko toko = new Toko(mCurrentToko.getId(), namaToko, keterangan, alamat, latitude,
+                longitude, nomorTelepon, mCurrentToko.getPhotoUrl());
 
         showProgressDialog();
         mDatabaseReference.child(CHILD_TOKO).child(mCurrentToko.getId()).setValue(toko)
@@ -133,6 +159,7 @@ public class TokoEditActivity extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
                         hideProgressDialog();
                         Toast.makeText(TokoEditActivity.this, "Toko berhasil di update.", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -142,8 +169,26 @@ public class TokoEditActivity extends AppCompatActivity {
                         Toast.makeText(TokoEditActivity.this, "Error update toko: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
 
-
+    private void deleteToko() {
+        showProgressDialog();
+        mDatabaseReference.child(CHILD_TOKO).child(mTokoId).setValue(null)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        hideProgressDialog();
+                        Toast.makeText(TokoEditActivity.this, "Toko berhasil di hapus.", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        hideProgressDialog();
+                        Toast.makeText(TokoEditActivity.this, "Error hapus toko: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void updateUI(Toko toko) {
