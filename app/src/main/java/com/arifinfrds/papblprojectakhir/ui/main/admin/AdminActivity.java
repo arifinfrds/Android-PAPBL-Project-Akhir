@@ -1,9 +1,9 @@
-package com.arifinfrds.papblprojectakhir.ui;
+package com.arifinfrds.papblprojectakhir.ui.main.admin;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.arifinfrds.papblprojectakhir.R;
 import com.arifinfrds.papblprojectakhir.model.Toko;
+import com.arifinfrds.papblprojectakhir.ui.main.TokoEditActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,9 +28,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.arifinfrds.papblprojectakhir.util.Constant.KEY.KEY_ID_TOKO;
 import static com.arifinfrds.papblprojectakhir.util.Constant.TAG.TAG_ADMIN;
 
-public class AdminActivity extends AppCompatActivity {
+public class AdminActivity extends AppCompatActivity implements AdminListener {
 
     RecyclerView mRvAdmin;
 
@@ -62,7 +64,7 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView() {
-        tokoListAdapter = new TokoListAdapter(AdminActivity.this, tokos);
+        tokoListAdapter = new TokoListAdapter(AdminActivity.this, tokos, this);
         mRvAdmin.setAdapter(tokoListAdapter);
         mRvAdmin.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
@@ -96,6 +98,17 @@ public class AdminActivity extends AppCompatActivity {
                 hideProgressDialog();
             }
         });
+    }
+
+    @Override
+    public void onItemClick(String id) {
+        navigateTokoEditActivity(id);
+    }
+
+    private void navigateTokoEditActivity(String idToko) {
+        Intent intent = new Intent(this, TokoEditActivity.class);
+        intent.putExtra(KEY_ID_TOKO, idToko);
+        startActivity(intent);
     }
 
     @Override
