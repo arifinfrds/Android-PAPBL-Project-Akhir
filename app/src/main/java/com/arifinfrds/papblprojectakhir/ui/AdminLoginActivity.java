@@ -1,5 +1,6 @@
 package com.arifinfrds.papblprojectakhir.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,10 +14,18 @@ import android.app.ProgressDialog;
 import android.widget.Toast;
 
 import com.arifinfrds.papblprojectakhir.R;
+import com.arifinfrds.papblprojectakhir.model.User;
+import com.arifinfrds.papblprojectakhir.model.UserType;
+import com.arifinfrds.papblprojectakhir.ui.main.admin.admin_main.AdminActivity;
+import com.arifinfrds.papblprojectakhir.util.Constant;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class AdminLoginActivity extends AppCompatActivity {
 
@@ -69,12 +78,46 @@ public class AdminLoginActivity extends AppCompatActivity {
                 showProgressLoginAdmin.dismiss();
 
                 if (task.isSuccessful()) {
-                    finish();
                     //intent to admin activity
+                    checkIfUserIsAdmin(mAdminAuth.getUid());
                 } else {
                     Toast.makeText(AdminLoginActivity.this, "Mohon maaf, login gagal. Silahkan coba lagi", Toast.LENGTH_LONG).show();
                 }
             }
         });
+    }
+
+    private void checkIfUserIsAdmin(String id) {
+        showProgressLoginAdmin.setMessage("Cek admin...");
+        showProgressLoginAdmin.show();
+
+        FirebaseDatabase.getInstance().getReference().child(Constant.CHILD.CHILD_USER).child(id)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User user = dataSnapshot.getValue(User.class);
+
+                        if (user.getUserType().equals(UserType.TYPE_ADMIN)) {
+                            showProgressLoginAdmin.hide();
+                            String message = "admin: " + mAdminAuth.getCurrentUser().getEmail();
+                            Toast.makeText(AdminLoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                            navigateToAdminActivity();
+                        } else {
+                            showProgressLoginAdmin.hide();
+                            Toast.makeText(AdminLoginActivity.this, "User bukan admin!", Toast.LENGTH_SHORT).show();
+                            mAdminAuth.signOut();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        showProgressLoginAdmin.hide();
+                    }
+                });
+    }
+
+    private void navigateToAdminActivity() {
+        Intent intent = new Intent(this, AdminActivity.class);
+        startActivity(intent);
     }
 }
