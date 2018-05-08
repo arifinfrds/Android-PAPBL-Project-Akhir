@@ -1,4 +1,4 @@
-package com.arifinfrds.papblprojectakhir.ui.main
+package com.arifinfrds.papblprojectakhir.ui.main.user
 
 import android.app.SearchManager
 import android.content.Context

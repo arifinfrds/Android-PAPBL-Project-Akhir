@@ -1,4 +1,4 @@
-package com.arifinfrds.papblprojectakhir.ui;
+package com.arifinfrds.papblprojectakhir.ui.main.admin;
 
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +13,10 @@ import android.widget.Toast;
 import android.content.Intent;
 
 import com.arifinfrds.papblprojectakhir.R;
-import com.arifinfrds.papblprojectakhir.ui.main.MapsActivity;
+import com.arifinfrds.papblprojectakhir.ui.AdminLoginActivity;
+import com.arifinfrds.papblprojectakhir.ui.RegisterActivity;
+import com.arifinfrds.papblprojectakhir.ui.ResetPasswordActivity;
+import com.arifinfrds.papblprojectakhir.ui.main.user.MapsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
