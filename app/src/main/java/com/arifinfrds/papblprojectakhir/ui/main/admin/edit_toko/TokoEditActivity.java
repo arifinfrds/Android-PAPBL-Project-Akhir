@@ -1,4 +1,4 @@
-package com.arifinfrds.papblprojectakhir.ui.main;
+package com.arifinfrds.papblprojectakhir.ui.main.admin.edit_toko;
 
 import android.app.ProgressDialog;
 import android.location.Address;
@@ -27,9 +27,6 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.arifinfrds.papblprojectakhir.util.Constant.CHILD.CHILD_TOKO;
 import static com.arifinfrds.papblprojectakhir.util.Constant.KEY.KEY_ID_TOKO;
