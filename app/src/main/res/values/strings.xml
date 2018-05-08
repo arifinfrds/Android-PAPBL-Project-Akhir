@@ -8,4 +8,5 @@
     <string name="title_activity_register">Register</string>
     <string name="title_loading">Menunggu...</string>
     <string name="title_login_activity">Login Activity</string>
+    <string name="title_activity_add_toko">Add Toko</string>
 </resources>

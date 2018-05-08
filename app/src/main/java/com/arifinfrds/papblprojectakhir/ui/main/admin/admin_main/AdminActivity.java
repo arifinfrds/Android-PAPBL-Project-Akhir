@@ -1,4 +1,4 @@
-package com.arifinfrds.papblprojectakhir.ui.main.admin;
+package com.arifinfrds.papblprojectakhir.ui.main.admin.admin_main;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -13,12 +13,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.arifinfrds.papblprojectakhir.R;
 import com.arifinfrds.papblprojectakhir.model.Toko;
-import com.arifinfrds.papblprojectakhir.ui.main.TokoEditActivity;
+import com.arifinfrds.papblprojectakhir.ui.main.admin.add_toko.AddTokoActivity;
+import com.arifinfrds.papblprojectakhir.ui.main.admin.edit_toko.TokoEditActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -60,8 +60,14 @@ public class AdminActivity extends AppCompatActivity implements AdminListener {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                navigateToAddTokoActivity();
             }
         });
+    }
+
+    private void navigateToAddTokoActivity() {
+        Intent intent = new Intent(this, AddTokoActivity.class);
+        startActivity(intent);
     }
 
     private void setupRecyclerView() {

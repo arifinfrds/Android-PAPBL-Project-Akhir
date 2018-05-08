@@ -5,7 +5,7 @@
     android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.admin.AdminActivity"
+    tools:context=".ui.main.admin.admin_main.AdminActivity"
     tools:showIn="@layout/activity_admin">
 
     <android.support.v7.widget.RecyclerView

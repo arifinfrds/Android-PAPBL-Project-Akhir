@@ -1,4 +1,4 @@
-package com.arifinfrds.papblprojectakhir.ui.main.admin;
+package com.arifinfrds.papblprojectakhir.ui.main.admin.admin_main;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;

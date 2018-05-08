@@ -42,7 +42,7 @@
         <activity
             android:name=".ui.LoginActivity"
             android:label="@string/title_login_activity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.AdminLoginActivity"
             android:label="@string/title_login_activity"
@@ -52,7 +52,7 @@
             android:label="Reset Password"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.main.admin.AdminActivity"
+            android:name=".ui.main.admin.admin_main.AdminActivity"
             android:label="Admin"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -62,10 +62,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.main.TokoEditActivity"
+            android:name=".ui.main.admin.edit_toko.TokoEditActivity"
             android:label="Edit Toko"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.main.admin.add_toko.AddTokoActivity"
+            android:label="@string/title_activity_add_toko"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-
     </application>
 
 </manifest>
