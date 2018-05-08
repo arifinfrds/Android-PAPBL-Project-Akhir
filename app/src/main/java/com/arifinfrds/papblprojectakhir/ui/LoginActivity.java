@@ -13,6 +13,7 @@ import android.widget.Toast;
 import android.content.Intent;
 
 import com.arifinfrds.papblprojectakhir.R;
+import com.arifinfrds.papblprojectakhir.ui.main.MapsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

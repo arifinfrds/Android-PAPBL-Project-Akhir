@@ -24,4 +24,8 @@ public interface Constant {
 
     }
 
+    interface KEY {
+        String KEY_ID_TOKO = "KEY_ID_TOKO";
+    }
+
 }

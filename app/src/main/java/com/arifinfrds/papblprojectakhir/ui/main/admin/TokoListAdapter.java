@@ -1,6 +1,7 @@
-package com.arifinfrds.papblprojectakhir.ui;
+package com.arifinfrds.papblprojectakhir.ui.main.admin;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,10 +26,12 @@ public class TokoListAdapter extends RecyclerView.Adapter<TokoListAdapter.TokoVi
 
     Context context;
     List<Toko> tokos;
+    AdminListener listener;
 
-    public TokoListAdapter(Context context, List<Toko> tokos) {
+    public TokoListAdapter(Context context, List<Toko> tokos, AdminListener listener) {
         this.context = context;
         this.tokos = tokos;
+        this.listener = listener;
     }
 
     @Override
@@ -38,12 +41,21 @@ public class TokoListAdapter extends RecyclerView.Adapter<TokoListAdapter.TokoVi
     }
 
     @Override
-    public void onBindViewHolder(TokoViewHolder holder, int position) {
+    public void onBindViewHolder(TokoViewHolder holder, final int position) {
         holder.mTvTelp.setText("Call: " + tokos.get(position).getNomorTelepon());
         holder.mTvKet.setText(tokos.get(position).getKeterangan());
         holder.mTvNama.setText(tokos.get(position).getNama());
 
         Picasso.get().load(tokos.get(position).getPhotoUrl()).into(holder.mImgV);
+
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onItemClick(tokos.get(position).getId());
+            }
+        });
+
 
     }
 
@@ -57,6 +69,7 @@ public class TokoListAdapter extends RecyclerView.Adapter<TokoListAdapter.TokoVi
 
         TextView mTvNama, mTvKet, mTvTelp;
         ImageView mImgV;
+        CardView cardView;
 
 
         public TokoViewHolder(View itemView) {
@@ -66,6 +79,8 @@ public class TokoListAdapter extends RecyclerView.Adapter<TokoListAdapter.TokoVi
             mTvTelp = itemView.findViewById(R.id.tv_NoTelpToko);
 
             mImgV = itemView.findViewById(R.id.imgView_Toko);
+
+            cardView = itemView.findViewById(R.id.cardView);
         }
     }
 }
