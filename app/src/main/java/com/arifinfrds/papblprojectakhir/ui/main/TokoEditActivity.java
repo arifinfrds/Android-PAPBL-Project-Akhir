@@ -1,8 +1,10 @@
 package com.arifinfrds.papblprojectakhir.ui.main;
 
 import android.app.ProgressDialog;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +13,8 @@ import android.widget.Toast;
 
 import com.arifinfrds.papblprojectakhir.R;
 import com.arifinfrds.papblprojectakhir.model.Toko;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +46,8 @@ public class TokoEditActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
 
+    private Toko mCurrentToko;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +68,7 @@ public class TokoEditActivity extends AppCompatActivity {
         btn_EditToko.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                updateToko();
             }
         });
 
@@ -95,6 +101,7 @@ public class TokoEditActivity extends AppCompatActivity {
                 Toast.makeText(TokoEditActivity.this, "nama toko: " + toko.getNama(), Toast.LENGTH_SHORT).show();
                 hideProgressDialog();
                 updateUI(toko);
+                mCurrentToko = toko;
             }
 
             @Override
@@ -103,6 +110,40 @@ public class TokoEditActivity extends AppCompatActivity {
                 hideProgressDialog();
             }
         });
+    }
+
+    private void updateToko() {
+        String namaToko = et_EditTokoNama.getText().toString();
+        String keterangan = et_EditTokoKeterangan.getText().toString();
+        String nomorTelepon = et_EditTokoTelp.getText().toString();
+        String alamat = et_EditTokoAlamat.getText().toString();
+
+        if (isInputEmpty(namaToko) || isInputEmpty(keterangan) || isInputEmpty(nomorTelepon) || isInputEmpty(alamat)) {
+            Toast.makeText(this, "Input tidak boleh kosong.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Toko toko = new Toko(mCurrentToko.getId(), namaToko, keterangan, alamat, 9.9,
+                9.9, nomorTelepon, mCurrentToko.getPhotoUrl());
+
+        showProgressDialog();
+        mDatabaseReference.child(CHILD_TOKO).child(mCurrentToko.getId()).setValue(toko)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        hideProgressDialog();
+                        Toast.makeText(TokoEditActivity.this, "Toko berhasil di update.", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        hideProgressDialog();
+                        Toast.makeText(TokoEditActivity.this, "Error update toko: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
     }
 
     private void updateUI(Toko toko) {
@@ -129,5 +170,12 @@ public class TokoEditActivity extends AppCompatActivity {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
+    }
+
+    private boolean isInputEmpty(String text) {
+        if (TextUtils.isEmpty(text) || text.length() == 0 || text.equals("")) {
+            return true;
+        }
+        return false;
     }
 }
