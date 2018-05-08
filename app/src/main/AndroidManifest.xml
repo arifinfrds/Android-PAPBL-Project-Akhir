@@ -34,14 +34,26 @@
 
         <activity
             android:name=".ui.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps" />
         <activity
             android:name=".ui.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.LoginActivity"
             android:label="@string/title_login_activity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ui.AdminLoginActivity"
+            android:label="@string/title_login_activity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.ResetPasswordActivity"
+            android:label="Reset Password"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.AdminActivity"
+            android:label="Admin"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,13 +62,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.AdminLoginActivity"
-            android:label="@string/title_login_activity"
+            android:name=".ui.TokoEditActivity"
+            android:label="Edit Toko"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
-            android:name=".ui.ResetPasswordActivity"
-            android:label="Reset Password"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+
     </application>
 
 </manifest>
