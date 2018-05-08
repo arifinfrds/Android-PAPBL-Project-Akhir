@@ -20,6 +20,8 @@ public interface Constant {
 
         String TAG_REGISTER = "TAG_REGISTER";
 
+        String TAG_ADMIN = "TAG_ADMIN";
+
     }
 
 }
