@@ -1,21 +1,39 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.arifinfrds.papblprojectakhir.ui.main.MainActivity">
+    tools:context="com.arifinfrds.papblprojectakhir.ui.main.user.MainActivity">
+
+
     <item
-        android:id="@+id/action_search"
-        android:icon="@drawable/ic_search_white_24dp"
-        android:orderInCategory="100"
-        android:title="Search"
-        app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="always|collapseActionView" />
+        android:id="@+id/action_map_type_normal"
+        android:orderInCategory="101"
+        android:title="Map normal"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_map_type_hybrid"
+        android:orderInCategory="102"
+        android:title="Map hybrid"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_map_type_satellite"
+        android:orderInCategory="103"
+        android:title="Map satellite"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_map_type_terrain"
+        android:orderInCategory="104"
+        android:title="Map terrain"
+        app:showAsAction="never" />
+
 
     <item
         android:id="@+id/action_logout"
         android:icon="@drawable/ic_exit_to_app_white_24dp"
-        android:orderInCategory="101"
+        android:orderInCategory="105"
         android:title="Logout"
-        app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="never" />
 
 </menu>

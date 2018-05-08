@@ -27,6 +27,8 @@ public interface Constant {
     interface KEY {
 
         String KEY_ID_TOKO = "KEY_ID_TOKO";
+
+        String KEY_NAMA_TOKO = "KEY_NAMA_TOKO";
     }
 
     interface DEFAULT {
