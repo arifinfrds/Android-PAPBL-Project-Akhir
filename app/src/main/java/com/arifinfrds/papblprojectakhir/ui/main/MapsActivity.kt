@@ -1,4 +1,4 @@
-package com.arifinfrds.papblprojectakhir.ui
+package com.arifinfrds.papblprojectakhir.ui.main
 
 import android.app.ProgressDialog
 import android.app.SearchManager
